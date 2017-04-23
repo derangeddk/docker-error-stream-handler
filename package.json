@@ -1,0 +1,12 @@
+{
+  "name": "docker-error-stream-handler",
+  "version": "0.0.1",
+  "description": "Tool for dispatching Docker container errors",
+  "author": "Asbjørn Thegler <asbjoern@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.10",
+    "js-yaml": "^3.8.3",
+    "nodemailer": "^4.0.1"
+  }
+}

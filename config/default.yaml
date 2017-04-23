@@ -1,0 +1,6 @@
+containers:
+
+mail:
+    from: DockerErrorStreamHandler <devops@example.com>
+    recipients:
+        - devops@example.com
