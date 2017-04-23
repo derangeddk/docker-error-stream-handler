@@ -18,23 +18,46 @@ config.containers.forEach((container) => {
     process.stderr.on("data", (data) => {
         const now = new Date().toISOString();
         const error = data.toString();
-        log.info({ error: error.slice(0, 100), container }, "Error logged");
+        if(error.length > 100) log.info({ error: `${error.slice(0, 100)} .. [chopped]`.replace("\n", " "), container }, "Error logged");
+        else log.info({ error: error.replace("\n", " "), container }, "Error logged");
 
-        config.mail.recipients.forEach((recipient) => {
-            let mailOptions = {
-                from: config.mail.from,
-                to: recipient,
-                subject: `Error from ${container}`,
-                text: `Error logged from ${container} at ${now}:\n${error}`
-            };
-
-            transporter.sendMail(mailOptions, (error) => {
-                if(error) throw error;
-            });
-        });
+        sendErrorMails(container, error, now);
     });
 
     process.on("exit", (code) => {
-        log.info({ code: code.toString() }, `Container ${container} exited`);
+        const now = new Date().toISOString();
+        log.info({ code: code.toString() }, `Container "${container}" exited`);
+
+        sendTerminationMails(container, code.toString(), now);
     });
 });
+
+function sendErrorMails(container, error, time) {
+    config.mail.recipients.forEach((recipient) => {
+        let mailOptions = {
+            from: config.mail.from,
+            to: recipient,
+            subject: `Error from "${container}"`,
+            text: `Error logged from "${container}" at ${time}:\n${error}`
+        };
+
+        transporter.sendMail(mailOptions, (error) => {
+            if(error) throw error;
+        });
+    });
+}
+
+function sendTerminationMails(container, code, time) {
+    config.mail.recipients.forEach((recipient) => {
+        let mailOptions = {
+            from: config.mail.from,
+            to: recipient,
+            subject: `Container "${container}" terminated`,
+            text: `Container "${container}" terminated at ${time} with code ${code}`
+        };
+
+        transporter.sendMail(mailOptions, (error) => {
+            if(error) throw error;
+        });
+    });
+}
