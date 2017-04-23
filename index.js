@@ -13,7 +13,7 @@ var transporter = nodemailer.createTransport({
 
 
 config.containers.forEach((container) => {
-    const process = spawn("docker", ["logs", "-f", "--tail=10", container]);
+    const process = spawn("docker", ["logs", "-f", "--tail=0", container]);
 
     process.stderr.on("data", (data) => {
         const now = new Date().toISOString();
