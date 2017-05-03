@@ -2,12 +2,22 @@
   "name": "docker-error-stream-handler",
   "version": "0.0.1",
   "description": "Tool for dispatching Docker container errors",
-  "author": "Asbjørn Thegler <asbjoern@gmail.com",
+  "author": "Asbjørn Thegler <asbjoern@gmail.com>",
   "license": "ISC",
+  "scripts": {
+    "start": "bin/start.js",
+    "test": "mocha",
+    "cover": "istanbul cover --include-all-sources -x **/test/** -x **/bin/** _mocha && istanbul report cobertura"
+  },
   "dependencies": {
     "bunyan": "^1.8.10",
-    "config": "^1.25.1",
+    "config": "^1.26.1",
     "js-yaml": "^3.8.3",
     "nodemailer": "^4.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.3.0"
   }
 }
