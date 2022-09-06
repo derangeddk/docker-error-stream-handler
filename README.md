@@ -1,3 +1,5 @@
+<span style="color:red">*Deprecated*</span>
+
 Docker Stream Error Dispatcher
 ==============================
 
